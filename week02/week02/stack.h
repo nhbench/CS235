@@ -161,7 +161,7 @@ void Stack <T> :: push(const T & newValue) throw(const char *)
       }
       catch (bad_alloc)
       {
-         throw "Eww";
+         throw "ERROR: Can't allocate memory for the Stack!";
       }
    }
    
@@ -206,7 +206,7 @@ T * Stack <T>::reallocate(T * oldBuffer, int size) throw (const char *)
    if (NULL == newBuffer)
    {
       //size /= 2;
-      throw "ERROR: Unable to allocate a new buffer for Vector";
+      throw "ERROR: Unable to allocate a new buffer for Stack";
       return oldBuffer;
    }
    
@@ -218,7 +218,7 @@ T * Stack <T>::reallocate(T * oldBuffer, int size) throw (const char *)
    }
    newBuffer[i] = '\0';
    
-   // Delete nasty buffer
+   // Delete old buffer
    delete[] oldBuffer;
    
    return newBuffer;
@@ -227,58 +227,3 @@ T * Stack <T>::reallocate(T * oldBuffer, int size) throw (const char *)
 #endif /* stack_h */
 
 
-/*
- 
- /*******************************************
- * Stack :: push()
- *******************************************
-template <class T>
-void Stack <T> :: push(const T & newValue) throw (const char *)
-{
-   
-   if(!capacity())
-      m_Array = new T[++m_Capacity];
-      
-      if (size() >= capacity()-1)
-      {
-         try
-         {
-            
-            T * temp_Array = new T[++m_Capacity];
-            
-            for (int pos = 0; pos <= m_Top; pos++)  // copy stack elements
-               temp_Array[pos] = m_Array[pos];
-               
-               delete[] m_Array;
-            m_Array = new T[m_Capacity];
-            
-            for (int pos = 0; pos <= m_Top; pos++)  // copy stack elements
-               m_Array[pos] = temp_Array[pos];
-               
-               delete [] temp_Array;
-         }
-         catch (std::bad_alloc)
-         {
-            throw "ERROR: Unable to allocate buffer";
-         }
-         
-      }
-   
-   m_Array[++m_Top] = newValue;   //Add new Value to top of array
-   
-   
-}
-
-
-/*******************************************
- * Stack :: pop()
- *******************************************
-template <class T>
-void Stack <T> :: pop()
-{
-   
-   m_Top--;
-   
-}
- 
- */
