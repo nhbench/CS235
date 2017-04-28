@@ -2,3 +2,6 @@
 *.xcbkptlist
 *.xcscheme
 *.plist
+*.xcworkspacedata
+*.xcuserstate
+*.xcsettings
