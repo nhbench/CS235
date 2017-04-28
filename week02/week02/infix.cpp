@@ -9,14 +9,14 @@
  *    and testInfixToAssembly() functions
  ************************************************************************/
 
-#include <iostream>    // for ISTREAM and COUT
-#include <string>      // for STRING
-#include <cassert>     // for ASSERT
-#include <locale> // Used for isalnum()
-#include "infix.h" // Used as prototypes
-//#include "stack.h"     // for STACK
-
-#include <stack>  // DELETE BEFORE TURNING IN AND USE OUR CUSTOM MADE STACK
+#include <iostream>	// for ISTREAM and COUT
+#include <string>      	// for STRING
+#include <cassert>	// for ASSERT
+#include <locale>	// Used for isalnum()
+#include "infix.h"	// Used as prototypes
+#include <sstream>	// Used to split a string
+#include <vector>	// Used for split strings
+#include "stack.h"	// for STACK
 
 using namespace std;
 
@@ -27,131 +27,131 @@ using namespace std;
  *****************************************************/
 string convertInfixToPostfix(const string & infix)
 {
-	char token,		// Character in expression
-		  topToken;	// Token on top of stack
+   char token,		// Character in expression
+   topToken;	// Token on top of Stack
    string postfix; // Postfix expression
-	stack <char> opStack; // Stack for operators
-
-	const string BLANK = " "; // Give spaces
+   Stack <char> opStack; // Stack for operators
    
-	bool onePeriod = true;
-
-	// Let's iterate through the string
-	for (int i = 0; i < infix.length(); i++)
-	{
-		token = infix[i];
-		switch (token)
-		{
-		case ' ': break; // Skip spaces
-		case '(':
-			// Push left parenthesis
-			opStack.push(token);
-			break;
-		case ')':
-			// Pop the left parenthesis
-			for (;;)
-			{
-				topToken = opStack.top();
-				opStack.pop();
-				if (topToken == '(') break;
-				postfix.append(BLANK + topToken);
-			}
-			break;
-		case '^':
-			for (;;)
-			{
-				// If stack empty, push to stack
-				if (opStack.empty())
-				{
-					opStack.push(token);
-					break;
-				}
-				// If stack not empty, push when top is lesser priority
-				if (!opStack.empty() && priority(opStack.top()) < 3)
-				{
-					opStack.push(token);
-					break;
-				}
-			}
-			break;
-		case '+':
-		case '-':
-		case '*':
-		case '/':
-			// Add other operators to stack
-			for (;;)
-			{
-				if (opStack.empty() || opStack.top() == '(' || 
-					(token == '*' || token == '/' || token == '%') && 
-					(opStack.top() == '+' || opStack.top() == '-'))
-				{
-					opStack.push(token);
-					break;
-				}
-				else
-				{
-					topToken = opStack.top();
-					opStack.pop();
-					postfix.append(BLANK + topToken);
-				}
-			}
-			break;
-		default: 
-			// Avoids spaces between periods, otherwise there is spaces
-			if (token == '.' && onePeriod) 
-			{
-				postfix.append(1, token);
-				onePeriod = false;
-			}
-			else
-				postfix.append(BLANK + token);
-			
-			// Outputs remaining operands
-			for (;;)
-			{
-				if (!isalnum(infix[i + 1])) break;
-				i++;
-				token = infix[i];
-				postfix.append(1, token);
-			}
-		}
-	}
-
-	// Pops out remaining operators in stack
-	for (;;)
-	{
-		if (opStack.empty()) break;
-		topToken = opStack.top();
-		opStack.pop();
-
-		if (topToken != '(')
-		{
-			postfix.append(BLANK + topToken);
-		}
-		else
-		{
-			cout << "Error in infix expression\n";
-			break;
-		}
-	}
+   const string BLANK = " "; // Give spaces
+   
+   bool onePeriod = true;
+   
+   // Let's iterate through the string
+   for (int i = 0; i < infix.length(); i++)
+   {
+      token = infix[i];
+      switch (token)
+      {
+         case ' ': break; // Skip spaces
+         case '(':
+            // Push left parenthesis
+            opStack.push(token);
+            break;
+         case ')':
+            // Pop the left parenthesis
+            for (;;)
+            {
+               topToken = opStack.top();
+               opStack.pop();
+               if (topToken == '(') break;
+               postfix.append(BLANK + topToken);
+            }
+            break;
+         case '^':
+            for (;;)
+            {
+               // If Stack empty, push to Stack
+               if (opStack.empty())
+               {
+                  opStack.push(token);
+                  break;
+               }
+               // If Stack not empty, push when top is lesser priority
+               if (!opStack.empty() && priority(opStack.top()) < 3)
+               {
+                  opStack.push(token);
+                  break;
+               }
+            }
+            break;
+         case '+':
+         case '-':
+         case '*':
+         case '/':
+            // Add other operators to Stack
+            for (;;)
+            {
+               if (opStack.empty() || opStack.top() == '(' ||
+                   (token == '*' || token == '/' || token == '%') &&
+                   (opStack.top() == '+' || opStack.top() == '-'))
+               {
+                  opStack.push(token);
+                  break;
+               }
+               else
+               {
+                  topToken = opStack.top();
+                  opStack.pop();
+                  postfix.append(BLANK + topToken);
+               }
+            }
+            break;
+         default:
+            // Avoids spaces between periods, otherwise there is spaces
+            if (token == '.' && onePeriod)
+            {
+               postfix.append(1, token);
+               onePeriod = false;
+            }
+            else
+               postfix.append(BLANK + token);
+            
+            // Outputs remaining operands
+            for (;;)
+            {
+               if (!isalnum(infix[i + 1])) break;
+               i++;
+               token = infix[i];
+               postfix.append(1, token);
+            }
+      }
+   }
+   
+   // Pops out remaining operators in Stack
+   for (;;)
+   {
+      if (opStack.empty()) break;
+      topToken = opStack.top();
+      opStack.pop();
+      
+      if (topToken != '(')
+      {
+         postfix.append(BLANK + topToken);
+      }
+      else
+      {
+         cout << "Error in infix expression\n";
+         break;
+      }
+   }
    return postfix;
 }
 
 /*****************************************************
-* PRIORITY
-* Returns the priority of operators, used to determine
-* when to pop or push an exponent
-*****************************************************/
+ * PRIORITY
+ * Returns the priority of operators, used to determine
+ * when to pop or push an exponent
+ *****************************************************/
 int priority(char token)
 {
-	if (token == '(')
-		return 0;
-	if (token == '+' || token == '-')
-		return 1;
-	if (token == '*' || token == '/')
-		return 2;
-
-	return 3;
+   if (token == '(')
+      return 0;
+   if (token == '+' || token == '-')
+      return 1;
+   if (token == '*' || token == '/')
+      return 2;
+   
+   return 3;
 }
 
 /*****************************************************
@@ -196,9 +196,85 @@ void testInfixToPostfix()
  **********************************************/
 string convertPostfixToAssembly(const string & postfix)
 {
-   string assembly;
+   string assembly, rhs, lhs, appending;
+   char valueNum = '1';
    
+   // Used for string splits
+   string str(postfix);		// String to be split
+   string buf;					// Buffer string
+   stringstream ss(str);	// Loads string into future buffer
+   vector <string> tokens;	// Stores split string
+   
+   Stack <string> operandStack; // Stack for operands
+   
+   // Splits the strings and adds to vector
+   while (ss >> buf)
+      tokens.push_back(buf);
+   
+   // Iterate through the split strings
+   for (vector<string>::iterator it = tokens.begin(); it < tokens.end(); it++)
+   {
+      // Later on used for appending the number
+      string value = "VALUE";
+      
+      switch (it[0][0])
+      {
+         case '^':
+         case '*':
+         case '/':
+         case '+':
+         case '-':
+            // If operator spotted, pop 2 variables
+            rhs = operandStack.top();
+            operandStack.pop();
+            lhs = operandStack.top();
+            operandStack.pop();
+            
+            // Display load
+            assembly.append("\tLOAD ");
+            assembly.append(lhs);
+            assembly.append(1, '\n');
+            
+            // Display operator
+            assembly.append(tokenToOperator(it[0][0]));
+            assembly.append(rhs);
+            assembly.append(1, '\n');
+            
+            // Store value and increase value #
+            assembly.append("\tSTORE ");
+            assembly.append("VALUE");
+            assembly.append(1,valueNum);
+            assembly.append(1, '\n');
+            value.append(1, valueNum);
+            operandStack.push(value);
+            valueNum++;
+            
+            break;
+         default:
+            operandStack.push(*it);
+      }
+   }
    return assembly;
+}
+
+/*****************************************************
+ * TOKEN TO OPERATOR
+ * Accepts a token, and returns assembly language
+ *****************************************************/
+string tokenToOperator(const char token)
+{
+   switch (token)
+   {
+      case '^': return "\tEXPONENT "; break;
+      case '*': return "\tMULTIPLY "; break;
+      case '/': return "\tDIVIDE "; break;
+      case '%': return "\tMODULUS "; break;
+      case '+': return "\tADD "; break;
+      case '-': return "\tSUBTRACT "; break;
+      default:
+         return "";
+         break;
+   }
 }
 
 /*****************************************************

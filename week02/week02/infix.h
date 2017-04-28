@@ -2,10 +2,9 @@
  * Header:
  *    INFIX
  * Summary:
- *    This will contain just the prototype for the convertInfixToPostfix()
- *    function
+ *    This will contain just the prototypes for the implementation
  * Author
- *    David Donovan, David Perez Jeffry Simpson
+ *    David Donovan, David Perez, Jeffry Simpson
  ************************************************************************/
 
 #ifndef INFIX_H
@@ -27,24 +26,29 @@ void testInfixToPostfix();
 void testInfixToAssembly();
 
 /*****************************************************
-* CONVERT INFIX TO POSTFIX
-* Algorithm to convert infix input and outputs postfix
-*****************************************************/
+ * CONVERT INFIX TO POSTFIX
+ * Algorithm to convert infix input and outputs postfix
+ *****************************************************/
 std::string convertInfixToPostfix(const std::string & infix);
 
 /*****************************************************
-* CONVERT POSTFIX TO ASSEMBLY
-* Algorithm to convert infix input and outputs postfix
-* in assembly language
-*****************************************************/
+ * CONVERT POSTFIX TO ASSEMBLY
+ * Algorithm to convert postfix in assembly language
+ *****************************************************/
 std::string convertPostfixToAssembly(const std::string & postfix);
 
 /*****************************************************
-* PRIORITY
-* Returns the priority of operators, used to determine
-* when to pop or push an exponent
-*****************************************************/
+ * PRIORITY
+ * Returns the priority of operators, used to determine
+ * when to pop or push an exponent
+ *****************************************************/
 int priority(char token);
+
+/*****************************************************
+ * TOKEN TO OPERATOR
+ * Accepts a token, and returns assembly language
+ *****************************************************/
+std::string tokenToOperator(const char token);
 
 
 #endif // INFIX_H
