@@ -21,8 +21,7 @@ template <class T>
 class Stack
 {
 private:
-   int m_Capacity,
-   m_Top;
+   int m_Capacity, m_Top;
    T * m_Array;
    
 public:
@@ -39,9 +38,9 @@ public:
    
    //Inline functions
    bool  empty()      const    { return (m_Top == -1); }
-   int   size()       const    { return (m_Top + 1);       }
-   int   capacity()   const    { return m_Capacity;  }
-   void  clear()               { m_Top = 0;           }
+   int   size()       const    { return (m_Top + 1);   }
+   int   capacity()   const    { return m_Capacity;    }
+   void  clear()               { m_Top = 0;            }
    
    //Functions
    T top() const throw(const char *);
@@ -78,7 +77,6 @@ Stack  <T> ::Stack(int numElements) throw(const char *)
 template <class T>
 Stack <T> ::Stack(const Stack & original) throw(const char *) : m_Capacity(original.m_Capacity), m_Top(original.m_Top)
 {
-   
    // Get new array for copy
    m_Array = new(nothrow) T[m_Capacity];
    
@@ -89,7 +87,6 @@ Stack <T> ::Stack(const Stack & original) throw(const char *) : m_Capacity(origi
    }
    else
       throw "Inadequate memory to allocate stack\n";
-   
 }
 
 /*******************************************
@@ -137,7 +134,7 @@ void Stack <T> :: display(ostream & out) const
 template <class T>
 T Stack <T> ::top() const throw(const char *)
 {
-   if ( !empty() )
+   if (!empty())
       return (m_Array[m_Top]);
    else
    {
@@ -181,7 +178,6 @@ void Stack <T> :: push(const T & newValue) throw(const char *)
 template <class T>
 void Stack <T> :: pop() throw(const char *)
 {
-   
    if (!empty())
       m_Top--;
    

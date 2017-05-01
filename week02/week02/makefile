@@ -7,13 +7,13 @@
 # Summary:
 #     Create a class encapsulating the notion of a stack
 # Time:
-#         Pair programming - 1.5 hour
-#	  Jeffry - 3 hours
-#	  David D -
-#    David Perez - 5 hours
+#     Pair programming - 1.5 hour
+#	  Jeffry Simpson - 2 hours
+#	  David Donavan  - 2 hours
+#     David Perez    - 5 hours
 #
 #         Difficulties:
-#                 David Perez - Figuring out how to work with
+#                 David P - Figuring out how to work with
 #                       exponent order of operations and also
 #                       a solution to convert postfix to assembly
 #
@@ -21,7 +21,8 @@
 #                          and forgetting to allocate memory in the
 #                          beginning when its NULL
 #
-#                 David D -
+#                 David D - Issues with getting the Push function to work
+#                           worked with David P to get it finished.
 #
 ###############################################################
 
