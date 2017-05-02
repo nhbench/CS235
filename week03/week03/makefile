@@ -8,7 +8,7 @@
 #     Create a class encapsulating the notion of a stack
 # Time:
 #    Pair programming -
-#	  Jeffry Simpson -
+#	  Jeffry Simpson - 1.5
 #	  David Donavan  -
 #    David Perez    -
 #

@@ -22,12 +22,17 @@ template <class T>
 class Queue
 {
 private:
-   int m_Capacity, m_Top;
+   int m_Capacity, m_Push, m_Pop;
    T * m_Array;
+
+   int   head()       const    { return m_Pop % m_Capacity;         }
+   int   tail()       const    { return (m_Push - 1) % m_Capacity;   }
+   
+   T * reallocate(T * oldBuffer, int size) throw (const char *);
    
 public:
    //Constructors
-   Queue() : m_Capacity(0), m_Top(-1), m_Array(NULL) {}   //Default
+   Queue() : m_Capacity(0), m_Push(0), m_Pop(0), m_Array(NULL) {}   //Default
    Queue(int numElements) throw(const char *);            //Non-Default
    Queue(const Queue & original) throw(const char *);     //Copy
    
@@ -39,22 +44,22 @@ public:
 
    
    //Inline functions
-   bool  empty()      const    { return (m_Top == -1); }
-   int   size()       const    { return (m_Top + 1);   }
-   int   capacity()   const    { return m_Capacity;    }
-   void  clear()               { m_Top = 0;            }
+   bool  empty()      const    { return (m_Pop == 0 && m_Push == 0);  }
+   int   size()       const    { return (m_Push - m_Pop);             }
+   int   capacity()   const    { return m_Capacity;                   }
+   void  clear()               { m_Push = m_Pop = 0;                  }
+   
    
    //Functions
-   T top() const throw(const char *);
-   
    void display(ostream & out) const;
    
    void push(const T & newValue)  throw (const char *);
    void pop()                     throw (const char *);
    T & front()                    throw (const char *);
    T   front()              const throw (const char *);
-   
-   T * reallocate(T * oldBuffer, int size) throw (const char *);
+   T & back()                     throw (const char *);
+   T   back()               const throw (const char *);
+
 };
 
 /*******************************************
@@ -70,7 +75,8 @@ Queue  <T> ::Queue(int numElements) throw(const char *)
    m_Array = new(nothrow) T[m_Capacity];
    
    if(m_Array != 0)
-      m_Top = -1;
+      clear();  //Set Push and Pop variables to 0;
+      
       else
          throw "Error: No memory to allocate";
 }
@@ -79,15 +85,22 @@ Queue  <T> ::Queue(int numElements) throw(const char *)
  * Queue :: Copy Constructor
  *******************************************/
 template <class T>
-Queue <T> ::Queue(const Queue & original) throw(const char *) : m_Capacity(original.m_Capacity), m_Top(original.m_Top)
+Queue <T> ::Queue(const Queue & original) throw(const char *)
+: m_Capacity(original.m_Capacity), m_Push(original.m_Push), m_Pop(original.m_Pop)
 {
    // Get new array for copy
    m_Array = new(nothrow) T[m_Capacity];
    
-   if (m_Array != 0)
+   if (m_Array != 0)  //Make sure we have allocated space in our array
    {
-      for (int pos = 0; pos <= m_Top; pos++)
-         m_Array[pos] = original.m_Array[pos];
+      // j = iterator/counter pos = position in queue
+      for (int j=0, pos = head(); j <= size(); pos++, j++)
+      {
+         if(pos == m_Capacity)  //check for Wrap
+            pos = 0;
+         m_Array[j] = original.m_Array[pos];
+         
+      }
    }
    else
       throw "Inadequate memory to allocate Queue\n";
@@ -97,16 +110,16 @@ Queue <T> ::Queue(const Queue & original) throw(const char *) : m_Capacity(origi
  * Queue :: Operator =
  *******************************************/
 template <class T>
-Queue <T> & Queue <T> ::operator=(const Queue <T> & rightHandSide) throw(const char *)
+Queue <T> & Queue <T> ::operator=(const Queue <T> &rhs) throw(const char *)
 {
-   if (this != &rightHandSide)                // check that not st = st
+   if (this != &rhs)                // check that we are not copying ourself
    {
       //-- Allocate a new array if necessary
-      if (m_Capacity != rightHandSide.m_Capacity)
+      if (m_Capacity != rhs.m_Capacity)
       {
          delete[] m_Array;                    // destroy previous array
          
-         m_Capacity = rightHandSide.m_Capacity;  // copy myCapacity
+         m_Capacity = rhs.m_Capacity;  // copy myCapacity
          m_Array = new(nothrow) T[m_Capacity];
          if (m_Array == 0)                    // check if memory available
          {
@@ -114,11 +127,16 @@ Queue <T> & Queue <T> ::operator=(const Queue <T> & rightHandSide) throw(const c
          }
       }
       
-      m_Top = rightHandSide.m_Top;            // copy myTop member
-      for (int pos = 0; pos <= m_Top; pos++)  // copy Queue elements
-         m_Array[pos] = rightHandSide.m_Array[pos];
+      // j = iterator/counter pos = position in queue
+      for (int j=0, pos = head(); j <= size(); pos++, j++)
+      {
+         if(pos == m_Capacity)  //check for Wrap
+            pos = 0;
+         m_Array[j] = rhs.m_Array[pos];;
+            
+      }
          
-         }
+   }
    return *this;
 }
 
@@ -128,8 +146,14 @@ Queue <T> & Queue <T> ::operator=(const Queue <T> & rightHandSide) throw(const c
 template <class T>
 void Queue <T> :: display(ostream & out) const
 {
-   for (int i = m_Top; i >= 0; i--)
-      out << m_Array[i] << endl;
+   // j = iterator/counter pos = position in queue
+   for (int j=0, pos = head(); j <= size(); pos++, j++)
+   {
+      if(pos == m_Capacity)  //check for Wrap
+         pos = 0;
+      
+      out << m_Array[pos] << endl;
+   }
 }
 
 
@@ -139,7 +163,7 @@ void Queue <T> :: display(ostream & out) const
 template <class T>
 void Queue <T> :: push(const T & newValue) throw(const char *)
 {
-   m_Top++;
+  
    if (m_Array == NULL)
    {
       m_Capacity = 2;
@@ -154,13 +178,14 @@ void Queue <T> :: push(const T & newValue) throw(const char *)
    }
    
    // Out of space
-   if (m_Top == m_Capacity - 1 && m_Array != NULL)
+   if (size() == m_Capacity - 1 && m_Array != NULL)
    {
       m_Capacity *= 2;
       m_Array = reallocate(m_Array, m_Capacity);
    }
    
-   m_Array[m_Top] = newValue;
+   m_Push++;
+   m_Array[tail()] = newValue;
 }
 
 /*******************************************
@@ -170,7 +195,7 @@ template <class T>
 void Queue <T> :: pop() throw(const char *)
 {
    if (!empty())
-      m_Top--;
+      m_Pop++;
    
    else
       throw "ERROR: Unable to pop from an empty Queue";
