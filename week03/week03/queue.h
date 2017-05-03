@@ -12,7 +12,6 @@
 #include <iostream>  
 using namespace std;
 
-
 #include <cassert>
 
 /************************************************
@@ -55,12 +54,11 @@ public:
    void pop()                     throw (const char *);
    T & front()                    throw (const char *);
    T   front()              const throw (const char *);
-   void Queue <T> ::front(int newValue) const throw (const char *);
+   void front(int newValue) const throw (const char *);
    T back() const throw(const char *);
 
    T * reallocate(T * oldBuffer, int size) throw (const char *);
 };
-
 
 /*******************************************
  * Queue :: Non-Default Constructor
@@ -240,15 +238,12 @@ template <class T>
 void Queue <T> ::front(int newValue) const throw (const char *)
 {
    if (!empty())
-      return m_Array[m_Front];
+      m_Array[m_Front] = newValue;
    else
    {
       throw "ERROR: attempting to access an item in an empty queue";
-      T garbage;
-      return garbage;
    }
 }
-
 
 template <class T>
 T Queue <T> ::back() const throw (const char *)
