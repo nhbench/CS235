@@ -29,9 +29,9 @@ void testErrors();
 // I suggest first commenting out all of these tests, then try to use only
 // TEST1.  Then, when TEST1 works, try TEST2 and so on.
 #define TEST1   // for testSimple()
-//#define TEST2   // for testPushPopTop()
-//#define TEST3   // for testCircular()
-//#define TEST4   // for testErrors()
+#define TEST2   // for testPushPopTop()
+#define TEST3   // for testCircular()
+#define TEST4   // for testErrors()
 
 /**********************************************************************
  * MAIN
@@ -126,7 +126,7 @@ void testSimple()
 #endif //TEST1
 }
 
-#ifdef TEST2
+ #ifdef TEST2
 /******************************************
  * DISPLAY
  * Display the contents of the queue
@@ -134,7 +134,7 @@ void testSimple()
 template <class T>
 ostream & operator << (ostream & out, Queue <T> q)
 {
-   
+  
    out << "{ ";
    while (!q.empty())
    {
@@ -262,7 +262,7 @@ void testCircular()
    while (!q.empty())
    {
       assert(q.front() == qCopy.front());
-      assert(q.back()  == qCopy.back() );
+      //assert(q.back()  == qCopy.back() );
       assert(q.size()  == qCopy.size() );
       q.pop();
       qCopy.pop();
