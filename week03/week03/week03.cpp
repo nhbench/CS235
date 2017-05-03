@@ -37,7 +37,7 @@ void testErrors();
  * MAIN
  * This is just a simple menu to launch a collection of tests
  ***********************************************************************/
-int main()
+int mains()
 {
    // menu
    cout << "Select the test you want to run:\n";

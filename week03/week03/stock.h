@@ -17,6 +17,7 @@
 
 // the interactive stock buy/sell function
 void stocksBuySell();
+void display();
 
 template <class T>
 class Stock

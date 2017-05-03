@@ -33,4 +33,8 @@ void stocksBuySell()
    // your code here...
 }
 
+void display()
+{
+
+}
 

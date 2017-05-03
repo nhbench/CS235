@@ -40,7 +40,7 @@ public:
    
    //Inline functions
    bool  empty()      const    { return (m_Front == m_Back);         }
-   bool isFull()      const    { return (count == m_Capacity - 1); }
+   bool isFull()      const    { return (count == m_Capacity); }
    bool triggered = false;
 
    int   size()       const    { return count;           } 
@@ -150,7 +150,7 @@ void Queue <T> :: display(ostream & out) const
  * Queue :: push()
  *******************************************/
 template <class T>
-void Queue <T> :: push(const T & newValue) throw(const char *)
+void Queue <T> ::push(const T & newValue) throw(const char *)
 {
    // Make sure memory is allocated
    if (m_Array == NULL)
@@ -166,25 +166,25 @@ void Queue <T> :: push(const T & newValue) throw(const char *)
       }
    }
 
-   if (count == m_Capacity - 1)
+   if (isFull())
    {
       m_Capacity *= 2;
       m_Array = reallocate(m_Array, m_Capacity);
-   }
 
-   // Circular array capacity
-   int newBack = (m_Back + 1) % m_Capacity;
-
-   // Queue isn't full
-   if (newBack != m_Front)
-   {      
-      m_Array[m_Back] = newValue;
-      m_Back = newBack;      
-      count++;
+      // Add to queue here
    }
    else
-      throw "The queue is full!\n";
-      
+   {
+      int newBack = (m_Back + 1) % m_Capacity;
+
+      // Queue isn't full
+      if (m_Front != m_Back)
+      {
+         m_Array[m_Back] = newValue;
+         count++;
+         m_Back = newBack;
+      }
+   }
 }
 
 /*******************************************
