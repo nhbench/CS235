@@ -7,7 +7,7 @@
 # Summary:
 #     Create a class encapsulating the notion of a stack
 # Time:
-#    Pair programming -
+#    Pair programming - 2.5
 #	  Jeffry Simpson - 1.5
 #	  David Donavan  -
 #    David Perez    -
