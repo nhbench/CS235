@@ -29,5 +29,14 @@ private:
    double buy, sell;
 };
 
-#endif // STOCK_H
+template <class T>
+class Stock
+{
+public:
+   
+private:
+   int quantity;
+   double buy, sell;
+};
 
+#endif // STOCK_H

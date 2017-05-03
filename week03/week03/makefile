@@ -7,8 +7,8 @@
 # Summary:
 #     Create a class encapsulating the notion of a stack
 # Time:
-#    Pair programming -
-#	  Jeffry Simpson -
+#    Pair programming - 2.5
+#	  Jeffry Simpson - 1.5
 #	  David Donavan  -
 #    David Perez    -
 #
@@ -28,8 +28,8 @@ a.out: queue.h week03.o dollars.o stock.o
 	g++ -o a.out week03.o dollars.o stock.o
 	tar -cf week03.tar *.h *.cpp makefile
 
-#dollarsTest: dollars.o dollarsTest.cpp
-#g++ -o dollarsTest dollars.o dollarsTest.cpp
+dollarsTest: dollars.o dollarsTest.cpp
+	g++ -o dollarsTest dollars.o dollarsTest.cpp
 
 ##############################################################
 # The individual components
@@ -46,8 +46,10 @@ dollars.o: dollars.h dollars.cpp
 stock.o: stock.h stock.cpp queue.h
 	g++ -c stock.cpp
 
+
 ##############################################################
 # Clean up
 ##############################################################
 clean:
 	rm *.o a.out
+

@@ -9,7 +9,8 @@
 
 #ifndef queue_h
 #define queue_h
-#include <iostream>  
+#include <iostream>
+
 using namespace std;
 
 #include <cassert>
@@ -36,10 +37,11 @@ public:
    
    //Operator =
    Queue <T> & operator = (const Queue <T> & rightHandSide) throw(const char *);
-
+   
    
    //Inline functions
    bool  empty()      const    { return (m_Front == m_Back);         }
+
    bool isFull()      const    { return (count == m_Capacity); }
    bool triggered = false;
 
@@ -79,8 +81,8 @@ Queue  <T> ::Queue(int numElements) throw(const char *)
       m_Back = 0;
       count = 0;
    }
-      else
-         throw "Error: No memory to allocate";
+   else
+      throw "Error: No memory to allocate";
 }
 
 /*******************************************
@@ -140,7 +142,7 @@ void Queue <T> :: display(ostream & out) const
 {
    for (int i = m_Front; i != m_Back; i = (i + 1) % m_Capacity)
       out << m_Array[i] << endl;
-
+   
    out << "Front: " << m_Front << endl;
    out << "Back: " << m_Back << endl;
    out << "Capacity: " << m_Capacity << endl;
@@ -166,6 +168,7 @@ void Queue <T> ::push(const T & newValue) throw(const char *)
       }
    }
 
+
    if (isFull())
    {
       m_Capacity *= 2;
@@ -185,6 +188,20 @@ void Queue <T> ::push(const T & newValue) throw(const char *)
          m_Back = newBack;
       }
    }
+   
+   // Circular array capacity
+   int newBack = (m_Back + 1) % m_Capacity;
+   
+   // Queue isn't full
+   if (newBack != m_Front)
+   {
+      m_Array[m_Back] = newValue;
+      m_Back = newBack;
+      count++;
+   }
+   else
+      throw "The queue is full!\n";
+   
 }
 
 /*******************************************
@@ -203,8 +220,8 @@ void Queue <T> :: pop() throw(const char *)
 }
 
 /*******************************************
-* Queue :: front()
-*******************************************/
+ * Queue :: front()
+ *******************************************/
 template <class T>
 T & Queue <T> :: front()       throw (const char *)
 {
@@ -219,8 +236,8 @@ T & Queue <T> :: front()       throw (const char *)
 }
 
 /*******************************************
-* Queue :: front()
-*******************************************/
+ * Queue :: front()
+ *******************************************/
 template <class T>
 T Queue <T> :: front() const throw (const char *)
 {
