@@ -134,7 +134,6 @@ void testSimple()
 template <class T>
 ostream & operator << (ostream & out, Queue <T> q)
 {
-  
    out << "{ ";
    while (!q.empty())
    {

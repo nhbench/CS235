@@ -31,7 +31,7 @@ public:
    Queue() : m_Capacity(0), m_Front(0), m_Back(0), m_Array(NULL), count(0) {}   //Default
    Queue(int numElements) throw(const char *);            //Non-Default
    Queue(const Queue & original) throw(const char *);     //Copy
-   
+
    //Destructur
    ~Queue()    {  delete [] m_Array;  }
    
@@ -55,6 +55,7 @@ public:
    void pop()                     throw (const char *);
    T & front()                    throw (const char *);
    T   front()              const throw (const char *);
+   void Queue <T> ::front(int newValue) const throw (const char *);
    T back() const throw(const char *);
 
    T * reallocate(T * oldBuffer, int size) throw (const char *);
@@ -223,7 +224,7 @@ T & Queue <T> :: front()       throw (const char *)
 * Queue :: front()
 *******************************************/
 template <class T>
-T   Queue <T> :: front() const throw (const char *)
+T Queue <T> :: front() const throw (const char *)
 {
    if (!empty())
       return m_Array[m_Front];
@@ -236,7 +237,21 @@ T   Queue <T> :: front() const throw (const char *)
 }
 
 template <class T>
-T   Queue <T> ::back() const throw (const char *)
+void Queue <T> ::front(int newValue) const throw (const char *)
+{
+   if (!empty())
+      return m_Array[m_Front];
+   else
+   {
+      throw "ERROR: attempting to access an item in an empty queue";
+      T garbage;
+      return garbage;
+   }
+}
+
+
+template <class T>
+T Queue <T> ::back() const throw (const char *)
 {
    if (!empty())
       return m_Array[m_Back];
