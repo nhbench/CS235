@@ -63,6 +63,9 @@ public:
    int iHead() const { return m_Back % m_Capacity; }
 
    void reallocate(int max = 0) throw (const char *);
+   
+  // friend std::ostream & operator << (std::ostream & out, const T & rhs);
+
 };
 
 /*******************************************
@@ -152,6 +155,16 @@ void Queue <T> :: display(ostream & out) const
    out << "iHead: " << iHead() << endl;
    out << "iTail: " << iTail() << endl;
 }
+
+/*
+template <class T>
+std::ostream & operator << (std::ostream & out, const T & rhs)
+{
+   for (int i = rhs.m_Front; i != rhs.m_Back; i = (i + 1) % rhs.m_Capacity)
+      out << rhs.m_Array[i] << endl;
+   
+   return out;
+} */
 
 /*******************************************
  * Queue :: push()
