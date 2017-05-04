@@ -43,7 +43,7 @@ public:
    bool  empty()      const    { return (m_Front == m_Back);         }
 
    bool isFull()      const    { return (count == m_Capacity); }
-   bool triggered = false;
+   bool triggered;
 
    int   size()       const    { return count;           } 
    int   capacity()   const    { return m_Capacity;      }
@@ -59,7 +59,10 @@ public:
    void front(int newValue) const throw (const char *);
    T back() const throw(const char *);
 
-   T * reallocate(T * oldBuffer, int size) throw (const char *);
+   int iTail() const { return (m_Back - 1) % m_Capacity; }
+   int iHead() const { return m_Back % m_Capacity; }
+
+   void reallocate(int max = 0) throw (const char *);
 };
 
 /*******************************************
@@ -72,7 +75,7 @@ Queue  <T> ::Queue(int numElements) throw(const char *)
    
    // Allocate array
    m_Capacity = numElements;
-   m_Array = new(nothrow) T[m_Capacity];
+   m_Array = new(nothrow) T[m_Capacity + 1];
    
    // If allocated, set member values to default
    if (m_Array != 0)
@@ -146,6 +149,8 @@ void Queue <T> :: display(ostream & out) const
    out << "Front: " << m_Front << endl;
    out << "Back: " << m_Back << endl;
    out << "Capacity: " << m_Capacity << endl;
+   out << "iHead: " << iHead() << endl;
+   out << "iTail: " << iTail() << endl;
 }
 
 /*******************************************
@@ -160,7 +165,7 @@ void Queue <T> ::push(const T & newValue) throw(const char *)
       m_Capacity = 2;
       try
       {
-         m_Array = new T[m_Capacity];
+         m_Array = new T[m_Capacity + 1];
       }
       catch (bad_alloc)
       {
@@ -168,40 +173,12 @@ void Queue <T> ::push(const T & newValue) throw(const char *)
       }
    }
 
-
-   if (isFull())
-   {
-      m_Capacity *= 2;
-      m_Array = reallocate(m_Array, m_Capacity);
-
-      // Add to queue here
-   }
-   else
-   {
-      int newBack = (m_Back + 1) % m_Capacity;
-
-      // Queue isn't full
-      if (m_Front != m_Back)
-      {
-         m_Array[m_Back] = newValue;
-         count++;
-         m_Back = newBack;
-      }
-   }
-   
-   // Circular array capacity
-   int newBack = (m_Back + 1) % m_Capacity;
-   
-   // Queue isn't full
-   if (newBack != m_Front)
+   if (!isFull())
    {
       m_Array[m_Back] = newValue;
-      m_Back = newBack;
-      count++;
+      m_Back = (m_Back + 1) % m_Capacity;
    }
-   else
-      throw "The queue is full!\n";
-   
+   count++;
 }
 
 /*******************************************
@@ -280,41 +257,45 @@ T Queue <T> ::back() const throw (const char *)
  * Used for changing the size of oldBuffer
  **************************************************/
 template <class T>
-T * Queue <T>::reallocate(T * oldBuffer, int size) throw (const char *)
+void Queue <T>::reallocate(int maxSize) throw (const char *)
 {
-   // Used to iterate through old buffer
-   int oldSize = size / 2;
-   
-   // Allocate new buffer
-   T * newBuffer = new T[size];
-   
-   // Allocation failure check
-   if (NULL == newBuffer)
-   {
-      //size /= 2;
-      throw "ERROR: Unable to allocate a new buffer for Queue";
-      return oldBuffer;
-   }
-   
-   // Copy contents
-   int i, j;
-   for (i = m_Front, j = 0; j < oldSize; i++, j++)
-   {
-      if (i == oldSize)
-      {
-         i = 0;
-      }
-      newBuffer[j] = oldBuffer[i];
-   }
-   newBuffer[j] = '\0';
-   
-   m_Front = 0;
-   m_Back = j - 1;
+   // double the size
+   maxSize = m_Capacity * 2;
 
-   // Delete old buffer
-   delete[] oldBuffer;
-   
-   return newBuffer;
+   // Allocate new array
+   T* newArray = new T[maxSize + 1];
+
+   // If back wrapped
+   if (m_Back <= m_Front)
+   {
+      int j = 0;
+      
+      for (int i = m_Front; i < m_Capacity; i++)
+      {
+         newArray[j++] = m_Array[i];
+      }
+
+      for (int i = 0; i < m_Back; i++)
+      {
+         newArray[j++] = m_Array[i];
+      }
+   }
+   else
+   {
+      int j = 0;
+      for (int i = m_Front; i < m_Back; i++)
+      {
+         newArray[j++] = m_Array[i];
+      }
+   }
+
+   // Cleanup
+   delete[] m_Array;
+   m_Array = newArray;
+
+   m_Front = 0;
+   m_Back = count;
+   m_Capacity = maxSize;
 }
 
 #endif /* Queue_h */
