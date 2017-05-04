@@ -28,4 +28,17 @@ private:
    double buy, sell;
 };
 
+// Menu structure
+enum eMenu
+{
+   BUY,
+   SELL,
+   DISPLAY,
+   QUIT,
+   MAX_VAL
+};
+
+//Menu Function
+eMenu string2enum(string word );
+
 #endif // STOCK_H
