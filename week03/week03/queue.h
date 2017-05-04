@@ -58,6 +58,8 @@ public:
    T back() const throw(const char *);
    
    T * reallocate(T * oldBuffer, int size) throw (const char *);
+   
+  // friend std::ostream & operator << (std::ostream & out, const T & rhs);
 };
 
 /*******************************************
@@ -145,6 +147,16 @@ void Queue <T> :: display(ostream & out) const
    out << "Back: " << m_Back << endl;
    out << "Capacity: " << m_Capacity << endl;
 }
+
+/*
+template <class T>
+std::ostream & operator << (std::ostream & out, const T & rhs)
+{
+   for (int i = rhs.m_Front; i != rhs.m_Back; i = (i + 1) % rhs.m_Capacity)
+      out << rhs.m_Array[i] << endl;
+   
+   return out;
+} */
 
 /*******************************************
  * Queue :: push()
@@ -289,7 +301,7 @@ T * Queue <T>::reallocate(T * oldBuffer, int size) throw (const char *)
       }
       newBuffer[j] = oldBuffer[i];
    }
-   newBuffer[j] = '\0';
+   //newBuffer[j] = '\0';
    
    m_Front = 0;
    m_Back = j - 1;

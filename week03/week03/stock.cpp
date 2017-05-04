@@ -24,6 +24,13 @@ using namespace std;
  ***********************************************/
 void stocksBuySell()
 {
+   string chooser;      //Menu chooser input
+   eMenu picked;        //Enum converted from menu chooser
+   Stock stock;         //Stock objects for BUying and selling
+
+   //Two queues one for Buying one for Selling, and one for display (show)
+   Queue<Stock> buy, sell, show;
+   
    // instructions
    cout << "This program will allow you to buy and sell stocks. "
         << "The actions are:\n";
@@ -32,49 +39,95 @@ void stocksBuySell()
    cout << "  display         - Display your current stock portfolio\n";
    cout << "  quit            - Display a final report and quit the program\n";
 
-   // interact
-   string chooser, price;
-   int quantity;
-   eMenu picked;
    
       do
       {
-         cout << " >> ";
-         cin  >> chooser;
+         cout << " > > ";                       //output
+         cin  >> chooser;                       //first word entered
 
-         picked = string2enum(chooser);
+         picked = string2enum(chooser);         //change string to enum
          
          switch (picked)
          {
             case BUY:
-               cin >> quantity >> price;
-               
-               cout << "You Picked: " << chooser << " of " << quantity << " shares for "<< price << endl;
-               //David D Buy Function goes here
-               
+               cin >> stock >> stock.amount;
+         
+               buy.push(stock);
                break;
+               
             case SELL:
-               cin >> quantity >> price;
+               cin >> stock >> stock.amount;
 
-               cout << "You Picked: " << chooser << " of " << quantity << " shares for "<< price << endl;
-               //Jeffry Sell Function
-               break;
-            case DISPLAY:
-               cout << "Got to display\n";
+                sell.push(stock);
+            
+               //Need to manipulate buy queue here
                
-               //David D Display function
+               break;
+               
+            case DISPLAY:
+               
+               show = buy;
+               
+               if(buy.size() > 0)
+               {
+                  cout << "Currently held:\n";
+                  for(int i=0; i < buy.size(); i++)
+                  {
+                     cout << "Bought "<< show.front() << endl;
+                     show.pop();
+                  }
+               }
 
                break;
+               
             case QUIT:
                break;
+               
             default:
-               cout << "\tInvalid option.\n Please see instructions above for Buy, Sell, and Display or Quit\n";
+               cout << "\tInvalid option.\n Please see instructions above for Buy, Sell, Display or Quit\n";
          }
       }
       while (picked != QUIT);
    
    
 }
+
+
+/*******************************************
+ * Stock :: Friend streaming out function
+ *******************************************/
+ostream & operator << (ostream & out, const Stock & rhs)
+{
+   out << rhs.m_Quantity << " shares at " <<rhs.amount;
+   
+   return out;
+}
+
+/*******************************************
+ * Stock :: Friend streaming In function
+ * Borrowed heavily from Dollor.cpp streaming in function
+ *******************************************/
+std::istream & operator >> (std::istream & in, Stock & rhs)
+{
+   rhs.m_Quantity = 0;  //start clean
+   
+   if (in.fail())
+      return in;
+   
+   while (isspace(in.peek()))   //remove space
+      in.get();
+   
+   while (isdigit(in.peek()))   // Get digits
+      rhs.m_Quantity = rhs.m_Quantity * 10 + (in.get() - '0');
+   
+   return in;
+}
+
+/*******************************************
+ * string2enum()
+ * Function to change input string to output enum
+ * for switch statement
+ *******************************************/
 
 eMenu string2enum(string word )
 {
@@ -92,9 +145,10 @@ eMenu string2enum(string word )
    if(word == "QUIT")
       return QUIT;
    
-   
-   return MAX_VAL;  //got somethign else
+   return MAX_VAL;  //got something else
    
    
 }
+
+
 

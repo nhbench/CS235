@@ -18,17 +18,24 @@
 // the interactive stock buy/sell function
 void stocksBuySell();
 
-template <class T>
 class Stock
 {
 public:
+   Dollars amount;  //Dollars object
+   
+   //Constructor
+   Stock () : m_Quantity(0), amount(0){}
+   
+   friend std::ostream & operator << (std::ostream & out, const Stock & rhs);
+   friend std::istream & operator >> (std::istream & in,        Stock & rhs);
    
 private:
-   int quantity;
-   double buy, sell;
+   int m_Quantity;
+
 };
 
-// Menu structure
+
+// Menu structure enumeration list
 enum eMenu
 {
    BUY,
@@ -38,7 +45,7 @@ enum eMenu
    MAX_VAL
 };
 
-//Menu Function
+//Menu Function definiton
 eMenu string2enum(string word );
 
 #endif // STOCK_H
