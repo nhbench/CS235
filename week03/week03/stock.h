@@ -26,6 +26,10 @@ public:
    //Constructor
    Stock () : m_Quantity(0), amount(0){}
    
+   //member functions
+   void setQuantity(int quantity)   { m_Quantity = quantity;}
+   int  getQuantity()               { return m_Quantity;    }
+   
    friend std::ostream & operator << (std::ostream & out, const Stock & rhs);
    friend std::istream & operator >> (std::istream & in,        Stock & rhs);
    

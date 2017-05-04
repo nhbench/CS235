@@ -8,14 +8,15 @@
 #     Create a class encapsulating the notion of a stack
 # Time:
 #    Pair programming - 2.5
-#	  Jeffry Simpson - 1.5
+#	  Jeffry Simpson - 3.5
 #	  David Donavan  -
 #    David Perez    -
 #
 # Difficulties:
 #    David P -
 #
-#   Jeffry -
+#   Jeffry - Getting Stock class to work coorectly including overloaded and
+#            friend functions
 #
 #   David D -
 #
