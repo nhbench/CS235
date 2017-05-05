@@ -19,16 +19,6 @@
 void stocksBuySell();
 void display();
 
-template <class T>
-class Stock
-{
-public:
-
-private:
-   int quantity;
-   double buy, sell;
-};
-
 class Stock
 {
 public:

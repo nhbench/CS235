@@ -43,7 +43,7 @@ int mains()
    exit(0);
 }
 
-int main1()
+int main()
 {
    // menu
    cout << "Select the test you want to run:\n";
