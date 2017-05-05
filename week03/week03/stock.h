@@ -17,7 +17,6 @@
 
 // the interactive stock buy/sell function
 void stocksBuySell();
-void display();
 
 class Stock
 {

@@ -9,12 +9,12 @@
 # Time:
 #    Pair programming - 2.5
 #	  Jeffry Simpson - 3.5
-#	  David Donavan  - 4
-#    David Perez    -
+#	  David Donavan  - 
+#    David Perez    - 5
 #
 # Difficulties:
 #    David P - Fixing the push function to allocate capacity after the size
-#              is full.
+#              is full. The problem rooted in the copy constructor.
 #
 #   Jeffry - Getting Stock class to work correctly including overloaded and
 #            friend functions

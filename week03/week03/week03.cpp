@@ -267,7 +267,7 @@ void testCircular()
    while (!q.empty())
    {
       assert(q.front() == qCopy.front());
-      //assert(q.back()  == qCopy.back() );
+      assert(q.back()  == qCopy.back() );
       assert(q.size()  == qCopy.size() );
       q.pop();
       qCopy.pop();
