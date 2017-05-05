@@ -86,12 +86,18 @@ Queue  <T> ::Queue(int numElements) throw(const char *)
 template <class T>
 Queue <T> ::Queue(const Queue & original) throw(const char *) : m_Capacity(original.m_Capacity), numPop(original.numPop), numPush(original.numPush)
 {
+   // No memory, lets make some!
+   if (m_Capacity == 0 || m_Array  == NULL)
+   {
+      m_Capacity = 2;
+   }
    // Allocate memory
    m_Array = new T[m_Capacity];
 
+
    // Copy contents to new array
    int i, j;
-   for (i = this->numPop, j = 0; j < this->size(); i++, j++)
+   for (i = iHead(), j = 0; j < this->size(); i++, j++)
    {
       if (i == m_Capacity)
       {
@@ -181,8 +187,9 @@ void Queue <T> ::push(const T & newValue) throw(const char *)
    }
    
    // Push to new tail
-   numPush++;
-   m_Array[iTail()] = newValue;
+   
+      numPush++;
+      m_Array[iTail()] = newValue;
 }
 
 /*******************************************
@@ -192,12 +199,8 @@ void Queue <T> ::push(const T & newValue) throw(const char *)
 template <class T>
 void Queue <T> :: pop() throw(const char *)
 {
-   if (!empty())
-   {
+   
       numPop++;
-   }
-   else
-      throw "ERROR: attempting to pop from an empty queue";
 }
 
 /*******************************************
@@ -279,7 +282,7 @@ void Queue <T>::reallocate(const int &newSize) throw (const char *)
    
    // Copy with wrap
    int i, j;
-   for (i = numPop, j = 0; j < oldSize; i++, j++)
+   for (i = numPush, j = 0; j < oldSize; i++, j++)
    {
       if (i == m_Capacity)
       {
