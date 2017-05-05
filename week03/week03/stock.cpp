@@ -27,6 +27,7 @@ void stocksBuySell()
    string chooser;      //Menu chooser input
    eMenu picked;        //Enum converted from menu chooser
    Stock stock;         //Stock objects for BUying and selling
+   int totalStock=0;      //Used to calculate Total stock owned
 
    //Two queues one for Buying one for Selling, and one for display (show)
    Queue<Stock> buy, sell, show;
@@ -50,17 +51,50 @@ void stocksBuySell()
          switch (picked)
          {
             case BUY:
-               cin >> stock >> stock.amount;
+               cin >> stock >> stock.amount;       //get stock input
          
-               buy.push(stock);
+               buy.push(stock);                    //push new stock to Buy queue
+               totalStock += stock.getQuantity();  //add to total owned
+               
                break;
                
             case SELL:
-               cin >> stock >> stock.amount;
+               cin >> stock >> stock.amount;       //get stock data input
 
-                sell.push(stock);
+               if(buy.size() > 0)                  //check if we own stock
+               {
+                  if(stock.getQuantity() > totalStock)    //check if we are selling more than we own
+                     stock.setQuantity(totalStock);      //only sell what we own
+                  
+                  sell.push(stock);                      //add to Sell queue
+                  
+                  //Need to manipulate buy queue here
+                  
+                  Stock buyChk;
+                  buyChk = buy.front();
+                  
+                  int sellQnty = stock.getQuantity();
+                  
+                  while((sellQnty > buyChk.getQuantity()) && (totalStock > 0))
+                  {
+                    
+                     totalStock -= buyChk.getQuantity();    //deduce total stock owned
+                     sellQnty -= buyChk.getQuantity();      //reduce selled quanity
+                     buy.pop();                            //pop off queue
+                     buyChk = buy.front();                  //get next item
+                  }
+                  
+                  if((sellQnty > 0) && (totalStock > 0))
+                  {
+                     //Change stock in buy.front
+                     //buy.front() -= sellQnty;
+                     
+                  }
+                  
+                  
+               }
             
-               //Need to manipulate buy queue here
+           
                
                break;
                
