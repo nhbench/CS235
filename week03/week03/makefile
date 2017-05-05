@@ -9,13 +9,14 @@
 # Time:
 #    Pair programming - 2.5
 #	  Jeffry Simpson - 3.5
-#	  David Donavan  -
+#	  David Donavan  - 4
 #    David Perez    -
 #
 # Difficulties:
-#    David P -
+#    David P - Fixing the push function to allocate capacity after the size
+#              is full.
 #
-#   Jeffry - Getting Stock class to work coorectly including overloaded and
+#   Jeffry - Getting Stock class to work correctly including overloaded and
 #            friend functions
 #
 #   David D -
@@ -52,5 +53,5 @@ stock.o: stock.h stock.cpp queue.h
 # Clean up
 ##############################################################
 clean:
-	rm *.o a.out
+	rm *.o a.out *~
 
