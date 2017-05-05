@@ -28,9 +28,11 @@ void stocksBuySell()
    eMenu picked;        //Enum converted from menu chooser
    Stock stock;         //Stock objects for BUying and selling
    int totalStock=0;      //Used to calculate Total stock owned
+   Dollars proceeds = 0; // to calculate total proceeds
 
    //Two queues one for Buying one for Selling, and one for display (show)
    Queue<Stock> buy, sell, show;
+   
    
    // instructions
    cout << "This program will allow you to buy and sell stocks. "
@@ -43,8 +45,10 @@ void stocksBuySell()
    
       do
       {
-         cout << " > > ";                       //output
-         cin  >> chooser;                       //first word entered
+         cin.ignore();
+         cin.clear();
+         cout << "> ";
+         cin >> chooser;                       //first word entered
 
          picked = string2enum(chooser);         //change string to enum
          
@@ -66,51 +70,81 @@ void stocksBuySell()
                   if(stock.getQuantity() > totalStock)    //check if we are selling more than we own
                      stock.setQuantity(totalStock);      //only sell what we own
                   
-                  sell.push(stock);                      //add to Sell queue
-                  
+                 // sell.push(stock);                      //add to Sell queue
+
                   //Need to manipulate buy queue here
                   
-                  Stock buyChk;
-                  buyChk = buy.front();
-                  
+                  Stock buyChk;                          //Temp Stock ojbect
+                  buyChk = buy.front();                  //Get first item
                   int sellQnty = stock.getQuantity();
                   
                   while((sellQnty > buyChk.getQuantity()) && (totalStock > 0))
                   {
-                    
+                     stock.profit = ((stock.amount * buyChk.getQuantity()) -
+                                      (buyChk.amount * buyChk.getQuantity()));
+                                     
+                     stock.setQuantity(buyChk.getQuantity());
+                     
                      totalStock -= buyChk.getQuantity();    //deduce total stock owned
                      sellQnty -= buyChk.getQuantity();      //reduce selled quanity
+                     
+                     sell.push(stock);
                      buy.pop();                            //pop off queue
                      buyChk = buy.front();                  //get next item
+                     
+                     stock.profit = 0;    //Clean-up at the end
                   }
                   
                   if((sellQnty > 0) && (totalStock > 0))
                   {
-                     //Change stock in buy.front
-                     //buy.front() -= sellQnty;
                      
+                     stock.setQuantity(sellQnty);
+                     stock.profit = ((stock.amount * sellQnty) -
+                                     (buyChk.amount * sellQnty));
+                     sell.push(stock);
+                     
+                     //Change stock in buy.front
+                     
+                     buyChk.setQuantity(buyChk.getQuantity() - sellQnty);
+                     buy.front() = buyChk;
+    
+                     stock.profit = 0;    //Clean-up at the end
                   }
                   
                   
-               }
+               } //end if
             
            
                
                break;
                
             case DISPLAY:
-               
-               show = buy;
-               
-               if(buy.size() > 0)
+              if(!buy.empty())
                {
+                  show = buy;              // copy buy so that we can pop with out changing the orginal
                   cout << "Currently held:\n";
                   for(int i=0; i < buy.size(); i++)
                   {
-                     cout << "Bought "<< show.front() << endl;
+                     cout << "\tBought "<< show.front() << endl;
                      show.pop();
                   }
                }
+               
+               if(!sell.empty())
+               {
+                  show = sell;     // making a copy
+                  cout << "Sell History:\n";
+                  for(int i=0; i < sell.size(); i++)
+                  {
+                     cout << "\tSold "<< show.front() << endl;
+                     stock = show.front();
+                     proceeds += stock.profit;
+                     show.pop();
+                  }
+               }
+               
+               cout << "Proceeds: " << proceeds << endl;
+               proceeds = 0;     //clean up at the end
 
                break;
                
@@ -118,7 +152,7 @@ void stocksBuySell()
                break;
                
             default:
-               cout << "\tInvalid option.\n Please see instructions above for Buy, Sell, Display or Quit\n";
+               cout << "\tInvalid option.\n";
          }
       }
       while (picked != QUIT);
@@ -132,10 +166,15 @@ void stocksBuySell()
  *******************************************/
 ostream & operator << (ostream & out, const Stock & rhs)
 {
-   out << rhs.m_Quantity << " shares at " <<rhs.amount;
+   if(rhs.profit == 0)
+      out << rhs.m_Quantity << " shares at " <<rhs.amount;
+   else
+      out << rhs.m_Quantity << " shares at " <<rhs.amount
+      << " for a profit of " << rhs.profit;
    
    return out;
 }
+
 
 /*******************************************
  * Stock :: Friend streaming In function

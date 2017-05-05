@@ -29,8 +29,8 @@ a.out: queue.h week03.o dollars.o stock.o
 	g++ -o a.out week03.o dollars.o stock.o
 	tar -cf week03.tar *.h *.cpp makefile
 
-dollarsTest: dollars.o dollarsTest.cpp
-	g++ -o dollarsTest dollars.o dollarsTest.cpp
+#dollarsTest: dollars.o dollarsTest.cpp
+#	g++ -std=c++11 -o dollarsTest dollars.o dollarsTest.cpp
 
 ##############################################################
 # The individual components
@@ -39,10 +39,10 @@ dollarsTest: dollars.o dollarsTest.cpp
 #      stock.o        : the logic for the stock program
 ##############################################################
 week03.o: queue.h week03.cpp
-	g++ -c week03.cpp
+	g++ -std=c++11 -c week03.cpp
 
 dollars.o: dollars.h dollars.cpp
-	g++ -c dollars.cpp
+	g++ -std=c++11 -c dollars.cpp
 
 stock.o: stock.h stock.cpp queue.h
-	g++ -c stock.cpp
+	g++ -std=c++11 -c stock.cpp

@@ -21,10 +21,10 @@ void stocksBuySell();
 class Stock
 {
 public:
-   Dollars amount;  //Dollars object
+   Dollars amount, profit;  //Dollars object
    
    //Constructor
-   Stock () : m_Quantity(0), amount(0){}
+   Stock () : m_Quantity(0), amount(0), profit(0){}
    
    //member functions
    void setQuantity(int quantity)   { m_Quantity = quantity;}
@@ -37,6 +37,7 @@ private:
    int m_Quantity;
 
 };
+
 
 
 // Menu structure enumeration list
