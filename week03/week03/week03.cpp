@@ -39,12 +39,6 @@ void testErrors();
  ***********************************************************************/
 int main()
 {
-   stocksBuySell();
-   exit(0);
-}
-
-int main1()
-{
    // menu
    cout << "Select the test you want to run:\n";
    cout << "\t1. Just create and destroy a Queue\n";
