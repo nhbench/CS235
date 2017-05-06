@@ -37,17 +37,8 @@ void testErrors();
  * MAIN
  * This is just a simple menu to launch a collection of tests
  ***********************************************************************/
-int mains()
-{
-<<<<<<< HEAD
-=======
-   stocksBuySell();
-   exit(0);
-}
-
 int main()
 {
->>>>>>> origin/master
    // menu
    cout << "Select the test you want to run:\n";
    cout << "\t1. Just create and destroy a Queue\n";
