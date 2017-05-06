@@ -24,14 +24,14 @@ using namespace std;
  ***********************************************/
 void stocksBuySell()
 {
-   string chooser;      //Menu chooser input
-   eMenu picked;        //Enum converted from menu chooser
-   Stock stock;         //Stock objects for BUying and selling
-   int totalStock=0;      //Used to calculate Total stock owned
-   Dollars proceeds = 0; // to calculate total proceeds
-
-   //Two queues one for Buying one for Selling, and one for display (show)
-   Queue<Stock> buy, sell, show;
+   string chooser;                     //Menu chooser input
+   eMenu picked;                       //Enum converted from menu chooser
+   Stock stockBuy, stockSell;          //Stock objects for BUying and selling
+   int totalStock=0;                   //Used to calculate Total stock owned
+   Dollars proceeds = 0;               // to calculate total proceeds
+   Queue<Stock> buyQue,
+               sellQue,
+               showQue;             //Queues for Buying, for Selling, and for display
    
    
    // instructions
@@ -48,68 +48,62 @@ void stocksBuySell()
          cin.ignore();
          cin.clear();
          cout << "> ";
-         cin >> chooser;                       //first word entered
+         cin >> chooser;                       //Menu options
 
          picked = string2enum(chooser);         //change string to enum
          
          switch (picked)
          {
             case BUY:
-               cin >> stock >> stock.amount;       //get stock input
+               cin >> stockBuy >> stockBuy.amount;       //get stock input
          
-               buy.push(stock);                    //push new stock to Buy queue
-               totalStock += stock.getQuantity();  //add to total owned
+               buyQue.push(stockBuy);                    //push new stock to Buy queue
+               totalStock += stockBuy.getQuantity();  //add to total owned
                
                break;
                
             case SELL:
-               cin >> stock >> stock.amount;       //get stock data input
+               cin >> stockSell >> stockSell.amount;       //get stock data input
 
-               if(buy.size() > 0)                  //check if we own stock
+               if(!buyQue.empty())                  //check if we own stock
                {
-                  if(stock.getQuantity() > totalStock)    //check if we are selling more than we own
-                     stock.setQuantity(totalStock);      //only sell what we own
+                  if(stockSell.getQuantity() > totalStock)    //check if we are selling more than we own
+                     stockSell.setQuantity(totalStock);      //only sell what we own
                   
-                 // sell.push(stock);                      //add to Sell queue
-
-                  //Need to manipulate buy queue here
+                  stockBuy = buyQue.front();                  //Get first item
+                  int sellQnty = stockSell.getQuantity();
                   
-                  Stock buyChk;                          //Temp Stock ojbect
-                  buyChk = buy.front();                  //Get first item
-                  int sellQnty = stock.getQuantity();
-                  
-                  while((sellQnty > buyChk.getQuantity()) && (totalStock > 0))
+                  while((sellQnty > stockBuy.getQuantity()) && (totalStock > 0))
                   {
-                     stock.profit = ((stock.amount * buyChk.getQuantity()) -
-                                      (buyChk.amount * buyChk.getQuantity()));
+                     stockSell.profit = ((stockSell.amount * stockBuy.getQuantity()) -
+                                      (stockBuy.amount * stockBuy.getQuantity()));
                                      
-                     stock.setQuantity(buyChk.getQuantity());
+                     stockSell.setQuantity(stockBuy.getQuantity());
                      
-                     totalStock -= buyChk.getQuantity();    //deduce total stock owned
-                     sellQnty -= buyChk.getQuantity();      //reduce selled quanity
+                     totalStock -= stockBuy.getQuantity();    //deduce total stock owned
+                     sellQnty -= stockBuy.getQuantity();      //reduce selled quanity
                      
-                     sell.push(stock);
-                     buy.pop();                            //pop off queue
-                     buyChk = buy.front();                  //get next item
+                     sellQue.push(stockSell);
+                     buyQue.pop();                            //pop off queue
+                     stockBuy = buyQue.front();               //get next item
                      
-                     stock.profit = 0;    //Clean-up at the end
+                     stockSell.profit = 0;    //Clean-up at the end
                   }
                   
                   if((sellQnty > 0) && (totalStock > 0))
                   {
                      
-                     stock.setQuantity(sellQnty);
-                     stock.profit = ((stock.amount * sellQnty) -
-                                     (buyChk.amount * sellQnty));
-                     sell.push(stock);
+                     stockSell.setQuantity(sellQnty);
+                     stockSell.profit = ((stockSell.amount * sellQnty) -
+                                     (stockBuy.amount * sellQnty));
                      
-                     //Change stock in buy.front
-                     //buy.front() -= sellQnty;
+                     sellQue.push(stockSell);
+
                      
-                     buyChk.setQuantity(buyChk.getQuantity() - sellQnty);
-                     buy.front() = buyChk;
+                     stockBuy.setQuantity(stockBuy.getQuantity() - sellQnty);
+                     buyQue.front() = stockBuy;
     
-                     stock.profit = 0;    //Clean-up at the end
+                     stockSell.profit = 0;    //Clean-up at the end
                   }
                   
                   
@@ -120,27 +114,27 @@ void stocksBuySell()
                break;
                
             case DISPLAY:
-              if(!buy.empty())
+              if(!buyQue.empty())
                {
-                  show = buy;              // copy buy so that we can pop with out changing the orginal
+                  showQue = buyQue;              // copy buy so that we can pop with out changing the orginal
                   cout << "Currently held:\n";
-                  for(int i=0; i < buy.size(); i++)
+                  for(int i=0; i < buyQue.size(); i++)
                   {
-                     cout << "\tBought "<< show.front() << endl;
-                     show.pop();
+                     cout << "\tBought "<< showQue.front() << endl;
+                     showQue.pop();
                   }
                }
                
-               if(!sell.empty())
+               if(!sellQue.empty())
                {
-                  show = sell;     // making a copy
+                  showQue = sellQue;     // making a copy
                   cout << "Sell History:\n";
-                  for(int i=0; i < sell.size(); i++)
+                  for(int i=0; i < sellQue.size(); i++)
                   {
-                     cout << "\tSold "<< show.front() << endl;
-                     stock = show.front();
-                     proceeds += stock.profit;
-                     show.pop();
+                     cout << "\tSold "<< showQue.front() << endl;
+                     stockSell = showQue.front();
+                     proceeds += stockSell.profit;
+                     showQue.pop();
                   }
                }
                
