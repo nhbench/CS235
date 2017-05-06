@@ -104,6 +104,7 @@ void stocksBuySell()
                      sell.push(stock);
                      
                      //Change stock in buy.front
+                     //buy.front() -= sellQnty;
                      
                      buyChk.setQuantity(buyChk.getQuantity() - sellQnty);
                      buy.front() = buyChk;
@@ -219,7 +220,6 @@ eMenu string2enum(string word )
       return QUIT;
    
    return MAX_VAL;  //got something else
-   
    
 }
 

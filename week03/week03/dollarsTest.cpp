@@ -14,7 +14,8 @@ using namespace std;
 /*****************************************
  * MAIN - simple driver program
  *****************************************/
-int main()
+
+int main1()
 {
    // for ever
    while (true)

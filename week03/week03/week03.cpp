@@ -37,8 +37,17 @@ void testErrors();
  * MAIN
  * This is just a simple menu to launch a collection of tests
  ***********************************************************************/
+int mains()
+{
+<<<<<<< HEAD
+=======
+   stocksBuySell();
+   exit(0);
+}
+
 int main()
 {
+>>>>>>> origin/master
    // menu
    cout << "Select the test you want to run:\n";
    cout << "\t1. Just create and destroy a Queue\n";
@@ -126,7 +135,7 @@ void testSimple()
 #endif //TEST1
 }
 
-#ifdef TEST2
+ #ifdef TEST2
 /******************************************
  * DISPLAY
  * Display the contents of the queue
@@ -134,7 +143,6 @@ void testSimple()
 template <class T>
 ostream & operator << (ostream & out, Queue <T> q)
 {
-   
    out << "{ ";
    while (!q.empty())
    {

@@ -4,3 +4,11 @@
 *.xcworkspacedata
 *.xcuserstate
 *.xcsettings
+
+#ignoring visual studio stuff
+.vs/
+Debug/
+*.vcxproj
+*.filters
+driver.cpp
+*.sln

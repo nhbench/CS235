@@ -9,13 +9,14 @@
 # Time:
 #    Pair programming - 2.5
 #	  Jeffry Simpson - 3.5
-#	  David Donavan  -
-#    David Perez    -
+#	  David Donavan  - 
+#    David Perez    - 5
 #
 # Difficulties:
-#    David P -
+#    David P - Fixing the push function to allocate capacity after the size
+#              is full. The problem rooted in the copy constructor.
 #
-#   Jeffry - Getting Stock class to work coorectly including overloaded and
+#   Jeffry - Getting Stock class to work correctly including overloaded and
 #            friend functions
 #
 #   David D -
@@ -45,4 +46,16 @@ dollars.o: dollars.h dollars.cpp
 	g++ -std=c++11 -c dollars.cpp
 
 stock.o: stock.h stock.cpp queue.h
+<<<<<<< HEAD
 	g++ -std=c++11 -c stock.cpp
+=======
+	g++ -c stock.cpp
+
+
+##############################################################
+# Clean up
+##############################################################
+clean:
+	rm *.o a.out *~
+
+>>>>>>> origin/master
