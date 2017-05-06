@@ -103,7 +103,10 @@ void stocksBuySell()
                      stockBuy.setQuantity(stockBuy.getQuantity() - sellQnty);
                      buyQue.front() = stockBuy;
     
-                     stockSell.profit = 0;    //Clean-up at the end
+                     //cleanup
+                     if(stockBuy.getQuantity() == 0)
+                        buyQue.pop();
+                     stockSell.profit = 0;
                   }
                   
                   
