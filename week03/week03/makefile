@@ -8,7 +8,7 @@
 #     Create a class encapsulating the notion of a stack
 # Time:
 #    Pair programming - 2.5
-#	  Jeffry Simpson - 6.5
+#	  Jeffry Simpson - 7.5
 #	  David Donavan  - 
 #    David Perez    - 5
 #
@@ -17,7 +17,9 @@
 #              is full. The problem rooted in the copy constructor.
 #
 #   Jeffry - Getting Stock class to work correctly including overloaded and
-#            friend functions as well as stupid little things for testbed
+#            friend functions as well as stupid little things for testbed.
+#           - Debugging the stupid Testbed errors including figuring out how to
+#             get C++11 working in Linux Lab.
 #
 #   David D -
 #
