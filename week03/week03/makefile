@@ -47,9 +47,13 @@ dollars.o: dollars.h dollars.cpp
 
 stock.o: stock.h stock.cpp queue.h
 <<<<<<< HEAD
+<<<<<<< HEAD
 	g++ -std=c++11 -c stock.cpp
 =======
 	g++ -c stock.cpp
+=======
+	g++ -std=c++11 -c stock.cpp
+>>>>>>> origin/master
 
 
 ##############################################################
