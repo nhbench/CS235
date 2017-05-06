@@ -40,13 +40,13 @@ dollarsTest: dollars.o dollarsTest.cpp
 #      stock.o        : the logic for the stock program
 ##############################################################
 week03.o: queue.h week03.cpp
-	g++ -c week03.cpp
+	g++ -std=c++11 -c week03.cpp
 
 dollars.o: dollars.h dollars.cpp
-	g++ -c dollars.cpp
+	g++ -std=c++11 -c dollars.cpp
 
 stock.o: stock.h stock.cpp queue.h
-	g++ -c stock.cpp
+	g++ -std=c++11 -c stock.cpp
 
 
 ##############################################################
