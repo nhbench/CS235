@@ -10,11 +10,12 @@
 #    Pair programming - 2.5
 #	  Jeffry Simpson - 7.5
 #	  David Donavan  - 
-#    David Perez    - 5
+#    David Perez    - 8
 #
 # Difficulties:
 #    David P - Fixing the push function to allocate capacity after the size
-#              is full. The problem rooted in the copy constructor.
+#              is full. The problem rooted in the copy constructor. Then after,
+#              reallocation didn't work with the Testbed so had to track it down.
 #
 #   Jeffry - Getting Stock class to work correctly including overloaded and
 #            friend functions as well as stupid little things for testbed.

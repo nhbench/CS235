@@ -138,7 +138,6 @@ template <class T>
 void Queue <T> :: display(ostream & out) const
 {
    // Display, used for debugging
-   
    out << "Head: " << m_Array[iHead()] << endl;
    out << "Tail: " << m_Array[iTail()] << endl;
    out << "Capacity: " << m_Capacity << endl;
@@ -170,7 +169,6 @@ void Queue <T> :: push(const T & newValue) throw(const char *)
    {
       m_Capacity *= 2;
       reallocate(m_Capacity);
-      
    }
    
    // Push to new tail
@@ -186,9 +184,7 @@ template <class T>
 void Queue <T> :: pop() throw(const char *)
 {
    if (!empty())
-   {
       numPop++;
-   }
    else
    {
       throw "ERROR: attempting to pop from an empty queue";
@@ -238,10 +234,10 @@ void Queue <T> ::front(int newValue) const throw (const char *)
 {
    if (!empty())
       m_Array[iHead()] = newValue;    //*X*   m_Array[m_Front] = newValue;
-      else
-      {
-         throw "ERROR: attempting to access an item in an empty queue";
-      }
+   else
+   {
+      throw "ERROR: attempting to access an item in an empty queue";
+   }
 }
 
 /*******************************************
@@ -276,8 +272,8 @@ void Queue <T>::reallocate(const int &newSize) throw (const char *)
    for (int i = 0; i < size(); i++)
       newArray[i] = m_Array[(iHead() + i) % oldSize];
       
-      // Cleanup, set new pointer
-      delete[] m_Array;
+   // Cleanup, set new pointer
+   delete[] m_Array;
    m_Array = newArray;
    
    numPush = size();       //reset push
