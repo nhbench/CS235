@@ -4,6 +4,7 @@
 *.xcworkspacedata
 *.xcuserstate
 *.xcsettings
+*.xcodeproj
 
 #ignoring visual studio stuff
 .vs/
