@@ -14,6 +14,30 @@ using namespace std;
 
 #include <cassert>
 
+/*
+ + deque()
+ + size() : integer
+ + empty() : boolean
+ + clear()
+ + assignment(d : deque)
+ 
+ + push_back(t : T)
+ + push_front(t : T)
+ + pop_back()
+ + pop_front()
+ + front() : T
+ + back() : T
+ 
+ - resize()
+ - capacity() : integer
+ - iFrontNormalized() : integer
+ - iBackNormalize() : integer
+ - iAbsoluteFromIRelative() : int
+ 
+ 
+*/
+
+
 /************************************************
 * Deque
 * A class that holds our Deque
@@ -23,6 +47,7 @@ class Deque
 {
 private:
    int m_Capacity, numPop, numPush;
+   //int Capacity, iFront, iBack, size;
    T * m_Array;
 
 public:
