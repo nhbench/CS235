@@ -12,3 +12,4 @@ Debug/
 *.filters
 driver.cpp
 *.sln
+Queue.vcxproj.user
