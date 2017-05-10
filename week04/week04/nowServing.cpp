@@ -12,7 +12,9 @@
 #include <string>       // for STRING
 #include <cassert>      // for ASSERT
 #include "nowServing.h" // for nowServing() prototype
-#include "deque.h"      // for DEQUE
+//#include "deque.h"      // for DEQUE
+#include <deque>
+
 using namespace std;
 
 /************************************************
@@ -31,85 +33,116 @@ void nowServing()
 
    // your code here
 
-   /*
-    int Linecount = 0, minLeft;
-    
-    enum choices
-    !!
-    none
-    finished
-    Max_out
-    
-    class  Lab
-    string course
-    string name
-    int min
-    bool emg
-    
-    deque <Lab> Peoples
-    Lab current, next
-    
-    do(
-    
-    switch
-    {
-    
-    case: !!
-    if we are not serving anyone (minleft < 0)
-    next.emg = true
-    then current = next
-    minLeft = next.min
-    
-    else
-    Next. push to front()
-    
-    
-    case: none
-    if( minleft <= 0)
-    then check deque and grab next current.front()
-    
-    case: Finish
-    quit(0)
-    
-    default: case
-    make its structured right  XXXX(class)   and XXXXX(name) and either NN minutes or 1 default
-    next.course, student, and min
-    
-    if we are not serving anyone i=MinLeft <= 0
-    current = next
-    minLeft = min
-    else
-    next -> push to back()
-    
-    
-    }
-    
-    
-    
-    //display
-    if minLeft > 0
-    {
-    if current.emg == True
-    emergancy << current.student
-    else 
-    current.course << current.student << "time left: << i
-    }
-    else // min == 0	
-    //do nothing
-    
-    cout << <linecount++ >
-    if(minLeft > 0
-    minLeft--
-    
-    
-    while( xxx != "finished)
-    
-    
-    */
+   string chooser;
+   eChoice picked;
+    int Linecount =  0,
+         minsLeft =  0;
+   
+   deque<STUDENT> serving;
+   
+   STUDENT current, next;
+   
+   do
+   {
+      
+      cin.ignore();
+      cin.clear();
+      cout << "> ";
+      cin >> chooser;
+      
+      picked = string2enum(chooser);         //change string to enum
+      
+      switch (picked)
+      {
+         case NONE:                          //Simulator incrementor
+           
+            // if( minleft <= 0)
+              // then check deque and grab next current.front()
+            break;
+            
+         case OTHERTEXT:                     //Normal requests
+            
+            /*
+             make sure its structured is right  XXXX(class)   and XXXXX(name) 
+               and either NN minutes or 1 default
+             
+             next.course, next.student, and next.min
+             
+             if we are not serving anyone i=MinLeft <= 0
+             current = next
+             minLeft = min
+             else
+             next -> push to back()
+             */
+            
+            break;
+            
+         case POUNDPOUND:                    //Emergancy Request
+         /*   if we are not serving anyone (minleft < 0)
+               next.emg = true
+               then current = next
+               minLeft = next.min
+               
+               else
+                  Next. push to front()  */
+            break;
+            
+         case FINISH:                      //Quit Simulation
+            break;
+            
+      }
+      
+      if(picked != FINISH)       //Display update if we aren't finished
+      {
+         /*
+          if minLeft > 0
+          {
+          if current.emg == True
+          emergancy << current.student
+          else
+          current.course << current.student << "time left: << i
+          }
+          else // min == 0
+          //do nothing
+          
+          cout << <linecount++ >
+          if(minLeft > 0
+          minLeft--
+          */
+      }
+      
+      
+   }
+   while(picked != FINISH);
+   
    
    // end
    cout << "End of simulation\n";
    
 }
+
+/*******************************************
+ * string2enum()
+ * Function to change input string to output enum
+ * for switch statement
+ *******************************************/
+
+eChoice string2enum(string word )
+{
+   for (auto & c: word) c = toupper(c);
+   
+   if(word == "!!")
+      return POUNDPOUND;
+   
+   if(word == "NONE")
+      return NONE;
+   
+   if(word == "FINISHED")
+      return FINISH;
+   
+   return OTHERTEXT;  //got something else
+   
+}
+
 
 

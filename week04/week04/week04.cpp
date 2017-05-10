@@ -28,16 +28,21 @@ void testErrors();
 // of these. The idea is to help you avoid too many compile errors at once.
 // I suggest first commenting out all of these tests, then try to use only
 // TEST1.  Then, when TEST1 works, try TEST2 and so on.
-#define TEST1   // for testSimple()
-#define TEST2   // for testPushPopFront()
-#define TEST3   // for testWrapping()
-#define TEST4   // for testErrors()
+//#define TEST1   // for testSimple()
+//#define TEST2   // for testPushPopFront()
+//#define TEST3   // for testWrapping()
+//#define TEST4   // for testErrors()
 
 /**********************************************************************
  * MAIN
  * This is just a simple menu to launch a collection of tests
  ***********************************************************************/
 int main()
+{
+   nowServing();
+}
+
+int main1()
 {
    // menu
    cout << "Select the test you want to run:\n";

@@ -7,7 +7,17 @@
 # Summary:
 #     <put a description here>
 # Time:
-#     <how long did it take to complete this program>?
+#    Pair programming - 1.0
+#	  Jeffry Simpson - 1.5
+#    David Perez    -
+#
+# Difficulties:
+#    David P -
+#
+#
+#   Jeffry -
+#
+#
 ###############################################################
 
 ##############################################################
@@ -23,7 +33,7 @@ a.out: deque.h week04.o nowServing.o
 #      nowServing.o   : the logic for the now serving program
 ##############################################################
 week04.o: deque.h week04.cpp
-	g++ -c week04.cpp
+	g++ -std=c++11 -c week04.cpp
 
 nowServing.o: nowServing.h nowServing.cpp deque.h
-	g++ -c nowServing.cpp
+	g++ -std=c++11 -c nowServing.cpp
