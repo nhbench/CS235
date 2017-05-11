@@ -1,13 +1,18 @@
 ###############################################################
 # Program:
 #     Week 04, DEQUE
-#     Brother XXXXX, CS235
+#     Brother JonesL, CS235
 # Author:
-#     <your name here>
+#     Jeffry Simpson, David Perez
 # Summary:
-#     <put a description here>
+#     Implements a deque and is used to solve now serving problem
 # Time:
-#     <how long did it take to complete this program>?
+#     David Perez - 4 hours
+#     Jeffry Simpson - 
+# Difficulties:
+#     David Perez -  Finding a way to reallocate the dynamic 
+#                    array to pass test 3 in the test bed.
+#     Jeffry Simpson - 
 ###############################################################
 
 ##############################################################
