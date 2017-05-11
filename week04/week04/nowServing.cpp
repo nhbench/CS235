@@ -35,7 +35,7 @@ void nowServing()
 
    string chooser;
    eChoice picked;
-    int Linecount =  0,
+    int linecount =  0,
          minsLeft =  0;
    
    deque<STUDENT> serving;
@@ -45,9 +45,9 @@ void nowServing()
    do
    {
       
-      cin.ignore();
+      //cin.ignore();
       cin.clear();
-      cout << "> ";
+      cout << "<" << linecount++ << "> ";
       cin >> chooser;
       
       picked = string2enum(chooser);         //change string to enum
@@ -55,29 +55,57 @@ void nowServing()
       switch (picked)
       {
          case NONE:                          //Simulator incrementor
-           
-            // if( minleft <= 0)
-              // then check deque and grab next current.front()
+         {
+            if( minsLeft <= 0)
+               if(!serving.empty())
+               {
+                  current = serving.front();
+                  serving.pop_front();
+                  minsLeft = current.getMins();
+               }
             break;
             
+         }
          case OTHERTEXT:                     //Normal requests
+         {
             
-            /*
-             make sure its structured is right  XXXX(class)   and XXXXX(name) 
-               and either NN minutes or 1 default
-             
-             next.course, next.student, and next.min
-             
-             if we are not serving anyone i=MinLeft <= 0
-             current = next
-             minLeft = min
-             else
-             next -> push to back()
-             */
+            string name,time;
+            int mins=1;
+            
+            cin >> name >> time;
+            
+            next.setCourse(chooser);
+            next.setName(name);
+            mins = atoi(time.c_str());
+            if(mins > 0)
+               next.setMins(mins);
+            else
+               next.setMins(1);
+            
+            if(minsLeft <= 0)
+            {
+               if(serving.empty())
+               {
+                  current = next;
+                  minsLeft = mins;
+               }
+               else
+               {
+                  current = serving.front();
+                  serving.pop_front();
+                  minsLeft = current.getMins();
+                  serving.push_back(next);
+               }
+            }
+            else
+               serving.push_back(next);
             
             break;
-            
+         }
          case POUNDPOUND:                    //Emergancy Request
+            
+            cout << "!! \n";
+            
          /*   if we are not serving anyone (minleft < 0)
                next.emg = true
                then current = next
@@ -94,21 +122,26 @@ void nowServing()
       
       if(picked != FINISH)       //Display update if we aren't finished
       {
-         /*
-          if minLeft > 0
+    
+          if(minsLeft > 0)       //Only Print if we have Minutes left
           {
-          if current.emg == True
-          emergancy << current.student
-          else
-          current.course << current.student << "time left: << i
+             
+             if(current.getEmgry()) //Current student has an emergancy
+             {
+                cout << "\tEmergency for ";
+             }
+             else
+             {
+                cout << "\tCurrently serving ";
+             }
+             
+             cout << current.getName()  << " for class " << current.getCourse()
+               << ". Time left: " << minsLeft << endl;
+             
+             minsLeft--;
           }
-          else // min == 0
-          //do nothing
+
           
-          cout << <linecount++ >
-          if(minLeft > 0
-          minLeft--
-          */
       }
       
       
