@@ -5,7 +5,7 @@
  *    This will contain the implementation for nowServing() as well as any
  *    other function or class implementations you may need
  * Author
- *    <your names here>
+*    Jeffry Simpson, David Perez 
  **********************************************************************/
 
 #include <iostream>     // for ISTREAM, OSTREAM, CIN, and COUT
@@ -24,135 +24,108 @@ using namespace std;
  ***********************************************/
 void nowServing()
 {
-   // instructions
-   cout << "Every prompt is one minute.  The following input is accepted:\n";
-   cout << "\t<class> <name> <#minutes>    : a normal help request\n";
-   cout << "\t!! <class> <name> <#minutes> : an emergency help request\n";
-   cout << "\tnone                         : no new request this minute\n";
-   cout << "\tfinished                     : end simulation\n";
-
-   // your code here
-
-   string chooser;
-   eChoice picked;
-    int linecount =  0,
-         minsLeft =  0;
+   string  chooser;                                   //Input for Menu choices
+   string course, name,time;
+   eChoice picked;                                    //enum translated Menu choice
+    int    linecount =  0,                            //Simulator counter
+           minsLeft =  0;                             //Minutes left for current student
+   deque<Student> serving;                            //Deque of Students waiting
+   Student current, nxt;                              //Current and New student
    
-   deque<STUDENT> serving;
    
-   STUDENT current, next;
+   displayInstructions();                             //Print the instructions
    
    do
    {
+      cout << "<" << linecount++ << "> ";             //Simulator line output
       
-      //cin.ignore();
+      cin.ignore();
       cin.clear();
-      cout << "<" << linecount++ << "> ";
       cin >> chooser;
       
-      picked = string2enum(chooser);         //change string to enum
+      picked = string2enum(chooser);                  //change string to enum
       
       switch (picked)
       {
-         case NONE:                          //Simulator incrementor
+         case NONE:                                   //Simulator incrementor only
          {
-            if( minsLeft <= 0)
-               if(!serving.empty())
+            if( minsLeft <= 0)                        //Current student is done
+               if(!serving.empty())                   //Check for more students
                {
-                  current = serving.front();
-                  serving.pop_front();
-                  minsLeft = current.getMins();
+                  current = serving.front();          //Get next student
+                  serving.pop_front();                //Remove from deque
+                  minsLeft = current.getMins();       //reset Minutes counter
                }
             break;
-            
          }
-         case OTHERTEXT:                     //Normal requests
+         case OTHERTEXT:                              //New requests
          {
+
+            cin >> name >> time;                      //Get additional inputs
+            int mins = setMins(time);                 //Change string to int
             
-            string name,time;
-            int mins=1;
-            
-            cin >> name >> time;
-            
-            next.setCourse(chooser);
-            next.setName(name);
-            mins = atoi(time.c_str());
-            if(mins > 0)
-               next.setMins(mins);
-            else
-               next.setMins(1);
-            
-            if(minsLeft <= 0)
+            Student next {chooser,name,mins,false};   //Create new student
+
+            if(minsLeft <= 0)                         //Check if we are serving a studnet now
             {
-               if(serving.empty())
+               if(serving.empty())                    //See if anyone else is waiting
                {
-                  current = next;
-                  minsLeft = mins;
+                  current = next;                     //If not, may new student current
+                  minsLeft = mins;                    //reset Minutes counter
                }
-               else
+               else                                   //Someone else in deque
                {
-                  current = serving.front();
-                  serving.pop_front();
-                  minsLeft = current.getMins();
-                  serving.push_back(next);
+                  current = serving.front();          //Get next student
+                  serving.pop_front();                //remove them from deque
+                  minsLeft = current.getMins();       //reset counter
+                  serving.push_back(next);            //push new student to deque
                }
             }
-            else
-               serving.push_back(next);
+            else                                      //still serving current student
+               serving.push_back(next);               // push new student to deque
             
             break;
          }
-         case POUNDPOUND:                    //Emergancy Request
+         case POUNDPOUND:                             //Emergancy Request
+         {
             
-            cout << "!! \n";
+            cin >> course >>name >> time;             //Get Addtional inputs
+            int mins = setMins(time);                 //Change string to int
             
-         /*   if we are not serving anyone (minleft < 0)
-               next.emg = true
-               then current = next
-               minLeft = next.min
-               
-               else
-                  Next. push to front()  */
+            Student next {course,name,mins,true};     //Create new student
+
+            if(minsLeft <= 0)                         //Check if we are serving a studnet now
+            {
+               current = next;                        //If not, may new student current
+               minsLeft = mins;                       //reset Minutes counter
+            }
+            else
+               serving.push_front(next);               // push new student to deque
+            
             break;
-            
-         case FINISH:                      //Quit Simulation
+         }
+         case FINISH:                                 //Quit Simulation
+         case MAX_VAL:                                //Currently not used
             break;
             
       }
       
-      if(picked != FINISH)       //Display update if we aren't finished
+      if((picked != FINISH) && minsLeft)              //Display if we aren't finished
       {
-    
-          if(minsLeft > 0)       //Only Print if we have Minutes left
-          {
-             
-             if(current.getEmgry()) //Current student has an emergancy
-             {
-                cout << "\tEmergency for ";
-             }
-             else
-             {
-                cout << "\tCurrently serving ";
-             }
-             
-             cout << current.getName()  << " for class " << current.getCourse()
-               << ". Time left: " << minsLeft << endl;
-             
-             minsLeft--;
-          }
-
+        displayInfo(current, minsLeft--);
           
       }
       
       
    }
-   while(picked != FINISH);
+   while(picked != FINISH);                          //Loop while not Finished
    
    
    // end
    cout << "End of simulation\n";
    
 }
+
 
 /*******************************************
  * string2enum()
@@ -178,4 +151,56 @@ eChoice string2enum(string word )
 }
 
 
+/*******************************************
+ * displayInfo()
+ * Function to display output
+ * for switch statement
+ *******************************************/
+void displayInfo(Student current, const int minsLeft)
+{
+
+   if(current.getEmrgcy()) //Current student has an emergancy
+   {
+      cout << "\tEmergency for ";
+   }
+   else
+   {
+      cout << "\tCurrently serving ";
+   }
+   
+   //Print rest of the line
+   cout << current.getName()  << " for class " << current.getCourse()
+   << ". Time left: " << minsLeft << endl;
+   
+}
+
+/*******************************************
+ * displayInstructions()
+ * Function to display instructions
+ *******************************************/
+void displayInstructions()
+{
+   
+   // instructions
+   cout << "Every prompt is one minute.  The following input is accepted:\n";
+   cout << "\t<class> <name> <#minutes>    : a normal help request\n";
+   cout << "\t!! <class> <name> <#minutes> : an emergency help request\n";
+   cout << "\tnone                         : no new request this minute\n";
+   cout << "\tfinished                     : end simulation\n";
+   
+}
+
+/*******************************************
+ * setMins
+ * Change string to integer for minutes
+ *******************************************/
+int setMins(string time)
+{
+   int mins = atoi(time.c_str());
+   if(mins <= 0)                 //non digit values = 0 from atoi
+      mins = 1;
+   
+   return mins;
+   
+}
 

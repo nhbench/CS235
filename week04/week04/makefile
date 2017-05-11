@@ -8,7 +8,7 @@
 #     <put a description here>
 # Time:
 #    Pair programming - 1.0
-#	  Jeffry Simpson - 1.5
+#	  Jeffry Simpson - 4.0
 #    David Perez    -
 #
 # Difficulties:
