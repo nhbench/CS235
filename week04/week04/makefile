@@ -8,15 +8,18 @@
 #     Implements a deque and is used to solve now serving problem
 # Time:
 #    Pair programming - 1.0
-#	  Jeffry Simpson - 4.0
-#     David Perez    - 4.0
+#	  Jeffry Simpson   - 4.0
+#     David Perez     - 4.0
 #
 # Difficulties:
 #    David P - Finding a way to reallocate the dynamic 
 #                 array to pass test 3 in the test bed.
 #
 #
-#   Jeffry -
+#   Jeffry - No difficulties this week, however, I would have had many
+#   had we not taken the time during the pair program to completely
+#   think out, and pseudo code the NowServing() function.   It was
+#   very straight forward to implement it from the design we created.
 #
 #
 ###############################################################

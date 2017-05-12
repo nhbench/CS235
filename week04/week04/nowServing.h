@@ -13,11 +13,6 @@
 
 #include "deque.h"     // for DEQUE
 
-//Temp items here
-#include <iostream>
-using namespace std;
-#include <cassert>
-//To here
 
 
 /************************************************
