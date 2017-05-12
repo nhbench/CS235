@@ -37,6 +37,7 @@ void testErrors();
  * MAIN
  * This is just a simple menu to launch a collection of tests
  ***********************************************************************/
+
 int main()
 {
    // menu
